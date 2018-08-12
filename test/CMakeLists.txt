@@ -14,3 +14,4 @@ add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND ${PROJECT_NAME})
 
 add_executable(hello_world samples/hello_world.cpp)
 add_executable(infinite_loop samples/infinite_loop.cpp)
+add_dependencies(${PROJECT_NAME} hello_world infinite_loop)
