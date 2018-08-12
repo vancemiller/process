@@ -11,6 +11,8 @@
 #include <thread>
 #include <unistd.h>
 
+namespace wrapper {
+
 extern "C" char** environ;
 
 static std::unique_ptr<char*[]> build_args(const std::list<std::string>& args) {
@@ -82,3 +84,4 @@ int Process::wait(int options) const {
 const std::string Process::to_string(void) const {
   return std::to_string(getpid());
 }
+} // namespace wrapper

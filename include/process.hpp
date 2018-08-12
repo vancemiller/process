@@ -7,6 +7,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
+namespace wrapper {
 class Process {
   private:
     const int argc;
@@ -26,5 +27,5 @@ class Process {
     const std::string to_string(void) const;
     int wait(int options=0) const;
 };
-
+} // namespace wrapper
 #endif

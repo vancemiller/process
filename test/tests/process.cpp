@@ -1,6 +1,8 @@
 #include "process.hpp"
 #include "gtest/gtest.h"
 
+namespace wrapper {
+
 TEST(Process, ConstructDestruct) {
   Process({"test/hello_world"});
 }
@@ -57,3 +59,4 @@ TEST(Process, Move) {
   moved.kill();
   EXPECT_EQ(SIGKILL, moved.wait());
 }
+} // namespace wrapper
