@@ -1,14 +1,9 @@
 #include "process.hpp"
 
-#include <cerrno>
-#include <chrono>
-#include <csignal>
 #include <cstring>
-#include <exception>
 #include <fstream>
-#include <iostream>
+#include <system_error>
 #include <spawn.h>
-#include <thread>
 #include <unistd.h>
 
 namespace wrapper {
@@ -28,6 +23,10 @@ static std::unique_ptr<char*[]> build_args(const std::list<std::string>& args) {
 }
 
 static pid_t spawn_process(std::unique_ptr<char*[]>& argv) {
+  {
+    std::ifstream infile(argv[0]);
+    if (!infile.good()) throw std::runtime_error("file does not exist");
+  }
   posix_spawn_file_actions_t actions;
   int err;
   pid_t pid;

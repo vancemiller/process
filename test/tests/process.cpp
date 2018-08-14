@@ -4,12 +4,11 @@
 namespace wrapper {
 
 TEST(Process, ConstructDestruct) {
-  Process({"test/hello_world"});
+  Process({"hello_world"});
 }
 
 TEST(Process, SpawnInvalid) {
-  Process p({"asdfghjwe___"});
-  EXPECT_EQ(127, p.wait());
+  EXPECT_THROW(Process({"asdfghjwe___"}), std::runtime_error);
 }
 
 TEST(Process, ReturnValue) {
