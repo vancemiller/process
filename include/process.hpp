@@ -9,13 +9,12 @@
 
 namespace wrapper {
 class Process {
-  private:
-    const int argc;
-    std::unique_ptr<char*[]> argv;
+  protected:
+    const std::list<std::string> args;
     mutable pid_t pid;
+    Process(const std::list<std::string>& args, pid_t pid);
   public:
     Process(const std::list<std::string>& args);
-    Process(int argc, std::unique_ptr<char*[]> argv);
     Process(void) = delete;
     Process(const Process&) = delete;
     Process(Process&) = delete;

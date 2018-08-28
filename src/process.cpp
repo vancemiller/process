@@ -22,7 +22,7 @@ static std::unique_ptr<char*[]> build_args(const std::list<std::string>& args) {
   return argv;
 }
 
-static pid_t spawn_process(std::unique_ptr<char*[]>& argv) {
+static pid_t spawn_process(std::unique_ptr<char*[]>&& argv) {
   {
     std::ifstream infile(argv[0]);
     if (!infile.good()) throw std::runtime_error("file does not exist");
@@ -45,12 +45,12 @@ static pid_t spawn_process(std::unique_ptr<char*[]>& argv) {
   return pid;
 }
 
-Process::Process(int argc, std::unique_ptr<char*[]> argv) : argc(argc), argv(std::move(argv)),
-    pid(spawn_process(this->argv)) {}
+Process::Process(const std::list<std::string>& args, pid_t pid) : args(args), pid(pid) {}
 
-Process::Process(const std::list<std::string>& args) : Process(args.size(), build_args(args)) {}
+Process::Process(const std::list<std::string>& args) : Process(args,
+    spawn_process(build_args(args))) {}
 
-Process::Process(Process&& o) : argc(o.argc), argv(std::move(o.argv)), pid(o.pid) { o.pid = 0; }
+Process::Process(Process&& o) : Process(o.args, o.pid) { o.pid = 0; }
 
 Process::~Process(void) { if (pid) wait(); }
 
