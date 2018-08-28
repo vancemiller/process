@@ -23,10 +23,8 @@ static std::unique_ptr<char*[]> build_args(const std::list<std::string>& args) {
 }
 
 static pid_t spawn_process(std::unique_ptr<char*[]>&& argv) {
-  {
-    std::ifstream infile(argv[0]);
-    if (!infile.good()) throw std::runtime_error("file does not exist");
-  }
+  if (access(argv[0], X_OK) == -1)
+    throw std::system_error(errno, std::generic_category(), "file is not accessible");
   posix_spawn_file_actions_t actions;
   int err;
   pid_t pid;
