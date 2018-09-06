@@ -12,7 +12,7 @@ class Process {
   protected:
     const std::list<std::string> args;
     mutable pid_t pid;
-  private:
+  protected:
     Process(const std::list<std::string>& args, pid_t pid);
   public:
     Process(const std::list<std::string>& args);
